@@ -877,11 +877,12 @@ RESPONSE = {
 def main():
     while True:
         line = input(">> ").lower()
+        
         if line in exit_list:
             
             print(">> Good bye!")
 
-            if len(contact_book) != 0:
+            if len(contact_book) is not False:
                 out_save = colored(">> address book saved to ", "yellow")
                 out_address_book = colored(ADRESSBOOK, "red")
                 print(out_save + out_address_book)
