@@ -1,7 +1,6 @@
 from __future__ import annotations
 from abc import ABC, abstractmethod
 
-from PIL import Image, ImageTk
 import tkinter as tk
 from pathlib import Path
 import os
@@ -20,38 +19,6 @@ from project_team_10.notes import CLINotes
 colorama.init()
 
 dir_path = os.path.dirname(__file__)
-
-
-class Logo_Image:
-    def __init__(self, title="Volkan", geometry="300x400", image="Volkan.png", button_img="button.png"):
-        self.window = tk.Tk()
-        self.window.title(title)
-        self.window.geometry(geometry)
-        self.window.resizable(width=False, height=False)
-        print(os.getcwd())
-        self.canvas = tk.Canvas(self.window, width=600, height=400)
-        self.canvas.place(x=-1, y=-1)
-        self.img = Image.open(os.path.join(dir_path, image))
-
-        self.resized_image = self.img.resize((300, 400), Image.ANTIALIAS)
-        self.bgImage = ImageTk.PhotoImage(self.resized_image)
-        self.bg = self.canvas.create_image(
-            0, 0, image=self.bgImage, anchor=tk.NW)
-
-        self.img1 = Image.open(os.path.join(dir_path,button_img))
-        self.resized_button = self.img1.resize((100, 30), Image.ANTIALIAS)
-        self.bgBtn = ImageTk.PhotoImage(self.resized_button)
-
-        self.button = self.canvas.create_image(150, 365, image=self.bgBtn)
-        self.command = lambda: self.click_button_event()
-        self.canvas.tag_bind(self.button, "<Button-1>",
-                             self.click_button_event)
-
-    def run(self):
-        self.window.mainloop()
-
-    def click_button_event(self, event):
-        self.window.destroy()
 
 
 class InitialiseInterface(ABC):
@@ -931,12 +898,6 @@ def main():
 
 
 def start():
-    # CONTACTS = {}  # dictionary of the contacts
-
-    window = Logo_Image()
-    window.run()
-    # print(os.getcwd())
-
     contact_book = AddressBook()  # address book of contacts
 
     if (os.path.exists(ADRESSBOOK)):
@@ -951,23 +912,6 @@ def start():
 
     main()
    
-
-    # if len(contact_book) != 0:
-    #     out_save = colored(">> address book saved to ", "yellow")
-    #     out_address_book = colored(ADRESSBOOK, "red")
-    #     print(out_save + out_address_book)
-    #     contact_book.save_to_file(ADRESSBOOK)
-
-# print(check_phone("+386478617006"))
-# print(check_name("+1(647)861 wrwf"))
-# line = "add Alisa +16478617006 show all"
-# command_line = PARSER["add"](line)
-# handler = RESPONSE["add"]
-# print(handler(command_line))
-# 3command_line = PARSER["show"](line)
-# handler = RESPONSE["show"]
-# print(handler(command_line))
-# wait()
 if __name__ == "__main__":
 
     start()
