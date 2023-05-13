@@ -8,10 +8,9 @@ import pickle
 import json
 import re
 import time
-import sys
 import shutil
 from collections import UserDict
-from datetime import date, timedelta
+from datetime import date
 from termcolor import colored
 import colorama
 
