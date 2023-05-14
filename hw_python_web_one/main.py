@@ -1,5 +1,5 @@
 from __future__ import annotations
-from abc import ABC, abstractmethod
+from abc import ABC, ABCMeta ,abstractmethod
 
 import tkinter as tk
 from pathlib import Path
@@ -22,28 +22,10 @@ dir_path = os.path.dirname(__file__)
      
 class Message(ABC):
      @abstractmethod
-     # Interface - Create Messenger Window
-     def create_messenger_window(self, names, phone, email):
+     # Interface - Create print
+     def create_message(self):
         pass
-
-
-class ShowMessage(Message):
-    def create_messenger_window(self):
-        print("Message Window Created")
-    # def show_name(self, phone, email):
-    #     m1 = len(phone)
-    #     m2 = len(email)
-    #     if m1 > m2:
-    #         m = m1
-    #     else:
-    #         m = m2
-    #     print("-" * 160)
-
-    #     for i in range(m):
-    #         output = Record.self.create_output_line(i)
-
-    #     print(" {:^20} | {:^20}| {:^20} | {:^20} | {:^20} ".format(
-    #             output[0], output[1], output[2], output[3], output[4]))
+     
 
 
 NOT_DEFINED = "not defined"
@@ -51,7 +33,7 @@ ADRESSBOOK = "book.bin"
 TELEPHONE = r"[+]380[(][0-9]{2}[)][0-9]{3}[-][0-9]{2}[-][0-9]{2} | [+]380[(][0-9]{2}[)][0-9]{3}[-][0-9]{1}[-][0-9]{3}"
 
 
-class AddressBook(UserDict):
+class AddressBook(UserDict, Message):
 
     def __getstate__(self):
         attributes = self.__dict__.copy()
@@ -59,11 +41,11 @@ class AddressBook(UserDict):
 
     def __setstate__(self, value):
         self.__dict__ = value
-
+# add abstract class 
     def save_to_file(self, filename):
         with open(filename, "wb") as fh:
             pickle.dump(self, fh)
-
+# add abstract class 
     def read_from_file(self, filename):
         with open(filename, "rb") as fh:
             read = pickle.load(fh)
@@ -100,7 +82,7 @@ class AddressBook(UserDict):
 
 
 contact_book = AddressBook() 
-class Record:  # responsible for the record manipulation
+class Record(Message):  # responsible for the record manipulation
 
     def __init__(self, name):
         self.name = name  # type of Name
@@ -108,7 +90,6 @@ class Record:  # responsible for the record manipulation
         self.email = []  # list of e-mails
         self.birthday = Birthday()
         self.add = Address()
-        self.message = ShowMessage()
     
 
     def set_birthday(self, s):
@@ -228,22 +209,19 @@ class Record:  # responsible for the record manipulation
             output.append("")
         return output
 
-    def print(self):
-        see = self.message
-        return see.create_messenger_window
-    
-        # m1 = len(self.phone)
-        # m2 = len(self.email)
-        # if m1 > m2:
-        #     m = m1
-        # else:
-        #     m = m2
-        # print("-" * 160)
-        # for i in range(m):
-        #     output = self.create_output_line(i)
-        #     # print(output)
-        #     print(" {:^20} | {:^20}| {:^20} | {:^20} | {:^20} ".format(
-        #         output[0], output[1], output[2], output[3], output[4]))
+    def print(self):    
+        m1 = len(self.phone)
+        m2 = len(self.email)
+        if m1 > m2:
+            m = m1
+        else:
+            m = m2
+        print("-" * 160)
+        for i in range(m):
+            output = self.create_output_line(i)
+            # print(output)
+            print(" {:^20} | {:^20}| {:^20} | {:^20} | {:^20} ".format(
+                output[0], output[1], output[2], output[3], output[4]))
 
     def edit_birthday(self, new):
         self.birthday.update(new)
