@@ -19,37 +19,31 @@ colorama.init()
 
 dir_path = os.path.dirname(__file__)
 
-
-class InitialiseInterface(ABC):
+     
+class Message(ABC):
      @abstractmethod
-     def initialise(self, file_to_write, data_to_write):
+     # Interface - Create Messenger Window
+     def create_messenger_window(self, names, phone, email):
         pass
 
-     @abstractmethod
-     def de_initialise(self, file_to_read):
-        pass
 
-class PickleInitialise(InitialiseInterface):
+class ShowMessage(Message):
+    def create_messenger_window(self):
+        print("Message Window Created")
+    # def show_name(self, phone, email):
+    #     m1 = len(phone)
+    #     m2 = len(email)
+    #     if m1 > m2:
+    #         m = m1
+    #     else:
+    #         m = m2
+    #     print("-" * 160)
 
-    def initialise(self, file_to_write, data_to_write):
-        with open(file_to_write, "wb+") as file:
-            pickle.dump(data_to_write, file)
+    #     for i in range(m):
+    #         output = Record.self.create_output_line(i)
 
-    def de_initialise(self, file_to_read):
-        with open(file_to_read, "rb") as file:
-            return pickle.load(file)
-
-
-class JsonInitialise(InitialiseInterface):
-
-    def initialise(self, file_to_write, data_to_write):
-        with open(file_to_write, "w+", encoding="utf-8") as file:
-            json.dump(data_to_write, file)
-
-    def de_initialise(self, file_to_read):
-        with open(file_to_read, "r", encoding="utf-8") as file:
-            return json.load(file)
-
+    #     print(" {:^20} | {:^20}| {:^20} | {:^20} | {:^20} ".format(
+    #             output[0], output[1], output[2], output[3], output[4]))
 
 
 NOT_DEFINED = "not defined"
@@ -114,6 +108,8 @@ class Record:  # responsible for the record manipulation
         self.email = []  # list of e-mails
         self.birthday = Birthday()
         self.add = Address()
+        self.message = ShowMessage()
+    
 
     def set_birthday(self, s):
         self.birthday.day = check_birthday(s)
@@ -233,18 +229,21 @@ class Record:  # responsible for the record manipulation
         return output
 
     def print(self):
-        m1 = len(self.phone)
-        m2 = len(self.email)
-        if m1 > m2:
-            m = m1
-        else:
-            m = m2
-        print("-" * 160)
-        for i in range(m):
-            output = self.create_output_line(i)
-            # print(output)
-            print(" {:^20} | {:^20}| {:^20} | {:^20} | {:^20} ".format(
-                output[0], output[1], output[2], output[3], output[4]))
+        see = self.message
+        return see.create_messenger_window
+    
+        # m1 = len(self.phone)
+        # m2 = len(self.email)
+        # if m1 > m2:
+        #     m = m1
+        # else:
+        #     m = m2
+        # print("-" * 160)
+        # for i in range(m):
+        #     output = self.create_output_line(i)
+        #     # print(output)
+        #     print(" {:^20} | {:^20}| {:^20} | {:^20} | {:^20} ".format(
+        #         output[0], output[1], output[2], output[3], output[4]))
 
     def edit_birthday(self, new):
         self.birthday.update(new)
@@ -915,9 +914,6 @@ def start():
 if __name__ == "__main__":
 
     start()
-
-    f_pickle = PickleInitialise()
-    f_json = JsonInitialise()
 
     
    
