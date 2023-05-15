@@ -23,7 +23,7 @@ dir_path = os.path.dirname(__file__)
 class Message(ABC):
      @abstractmethod
      # Interface - Create print
-     def create_message(self):
+     def print(self):
         pass
      
 
